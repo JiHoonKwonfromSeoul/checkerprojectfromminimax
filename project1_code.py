@@ -115,7 +115,7 @@ class Board:
     def empty_sqr(self, row, col):
         return self.squares[row][col] == 0
 
-    def get_empty_sqrs(self):
+    def get_empty_sqrs(self): #빈칸 찾아내기
         empty_sqrs = []
         for row in range(BOARDS_ROWS):
             for col in range(BOARDS_COLS):
@@ -135,14 +135,6 @@ class AI:
     def __init__(self, level=1, player=2):
         self.level = level
         self.player = player
-
-    # 랜덤 입력
-
-    def rnd(self, board):
-        empty_sqrs = board.get_empty_sqrs()
-        idx = random.randrange(0, len(empty_sqrs))
-
-        return empty_sqrs[idx] # (row, col)
 
     # 미니맥스
 
