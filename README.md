@@ -1,1 +1,1 @@
-# checkerprojectfromminimax
+# Checker game using Minimax Algorithm
