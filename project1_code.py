@@ -5,9 +5,6 @@ import random
 from os import path
 import copy
 
-
-snd_dir=path.join(path.dirname(__file__),'snd')
-
 #Constants
 WIDTH=800
 HEIGHT=WIDTH
@@ -37,10 +34,6 @@ pygame.mixer.init()
 screen=pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('TIC TAC TOE')
 screen.fill(BG_COLOR)
-
-#board
-#board=np.zeros((BOARDS_ROWS,BOARDS_COLS))
-#print(board)
 
 font_name = pygame.font.match_font('arial')
 
@@ -143,7 +136,7 @@ class AI:
         self.level = level
         self.player = player
 
-    # --- RANDOM ---
+    # 랜덤 입력
 
     def rnd(self, board):
         empty_sqrs = board.get_empty_sqrs()
@@ -151,22 +144,22 @@ class AI:
 
         return empty_sqrs[idx] # (row, col)
 
-    # --- MINIMAX ---
+    # 미니맥스
 
     def minimax(self, board, maximizing):
         
-        # terminal case
+        # terminal case, 최종결과
         case = board.final_state()
 
-        # player 1 wins
+        # player 1 wins +1
         if case == 1:
             return 1, None # eval, move
 
-        # player 2 wins
+        # player 2 wins -1 
         if case == 2:
             return -1, None
 
-        # draw
+        # draw 0
         elif board.isfull():
             return 0, None
 
@@ -200,15 +193,15 @@ class AI:
 
             return min_eval, best_move
 
-    # --- MAIN EVAL ---
+    # 메인
 
     def eval(self, main_board):
         if self.level == 0:
-            # random choice
+            # 무작위 선택
             eval = 'random'
             move = self.rnd(main_board)
         else:
-            # minimax algo choice
+            # 미니맥스 결정
             eval, move = self.minimax(main_board, False)
 
         print(f'AI has chosen to mark the square in pos {move} with an eval of: {eval}')
@@ -225,7 +218,7 @@ class Game:
         self.running = True
         self.show_lines()
 
-    # --- DRAW METHODS ---
+    # 그리기
 
     def show_lines(self):
         # bg
@@ -277,13 +270,13 @@ class Game:
 
 def main():
 
-    # --- OBJECTS ---
+    # 오브젝트
 
     game = Game()
     board = game.board
     ai = game.ai
 
-    # --- MAINLOOP ---
+    # 메인루프
 
     while True:
         
@@ -298,23 +291,12 @@ def main():
             # keydown event
             if event.type == pygame.KEYDOWN:
 
-                # g-gamemode
-                #if event.key == pygame.K_g:
-                #    game.change_gamemode()
-
-                # r-restart
+                # 다시 시작, R이나 스페이스 버튼 누르면
                 if event.key == pygame.K_r or pygame.K_SPACE:
                     game.reset()
                     board = game.board
                     ai = game.ai
 
-                # 0-random ai
-                if event.key == pygame.K_0:
-                    ai.level = 0
-                
-                # 1-random ai
-                if event.key == pygame.K_1:
-                    ai.level = 1
 
             # click event
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -347,8 +329,8 @@ def main():
 
 main()
 
-board=np.zeros((BOARDS_ROWS,BOARDS_COLS))
 
+board=np.zeros((BOARDS_ROWS,BOARDS_COLS))
 
 def draw_lines():
     # 1 horizontal
@@ -466,12 +448,7 @@ def restart():
         for col in range(BOARDS_COLS):
             board[row][col]=0
 
-
-
-
-
 draw_lines()
 
 player=1
 game_over=False
-
